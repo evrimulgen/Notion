@@ -24,7 +24,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.codahale.metrics.Counter;
-import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
@@ -32,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.mayo.qia.pacs.Audit;
 import edu.mayo.qia.pacs.Notion;
-import edu.mayo.qia.pacs.components.Pool;
 import edu.mayo.qia.pacs.components.PoolContainer;
 import edu.mayo.qia.pacs.components.PoolManager;
 import edu.mayo.qia.pacs.dicom.DICOMReceiver.AssociationInfo;
@@ -87,13 +85,10 @@ public class StorageSCP extends StorageService {
       throw new DicomServiceException(rq, Status.ProcessingFailure, "Invalid or unknown association");
     }
 
-    PoolContainer container = poolManager.getContainer(info.poolKey);
-    Pool pool = container.getPool();
     if (!info.canConnect) {
-      Audit.log(remoteDevice, "association_rejected", "C-MOVE to " + pool);
-      throw new DicomServiceException(rq, Status.ProcessingFailure, "AET (" + as.getCalledAET() + ") is unknown");
+      Audit.log(remoteDevice, "association_rejected", "C-MOVE " + info.failureMessage);
+      throw new DicomServiceException(rq, Status.ProcessingFailure, info.failureMessage);
     }
-
     Timer.Context context = imageTimer.time();
     String cuid = rq.getString(Tag.AffectedSOPClassUID);
     String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
@@ -130,6 +125,7 @@ public class StorageSCP extends StorageService {
     context.stop();
     imageCounter.inc();
     try {
+      PoolContainer container = poolManager.getContainer(info.poolKey);
       container.process(rename, null, info.cache);
     } catch (Exception e) {
       logger.error("Error handling new instance", e);
