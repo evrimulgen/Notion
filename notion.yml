@@ -53,9 +53,10 @@ logging:
   level: INFO
   # Logger-specific levels.
   loggers:
+    edu.mayo.qia.notion.audit: ALL
+  
     # Set this logger to debug if you would like to see the SQL hibernate generates
     org.hibernate.SQL: DEBUG
-
     org.hibernate.engine: ERROR
 
     # Suppress hibernate statistics
@@ -63,3 +64,19 @@ logging:
 
     # Suppress Shiro info messages
     org.apache.shiro.realm.AuthorizingRealm: ERROR
+
+  appenders:
+    - type: console
+    - type: file
+      currentLogFilename: notion.log
+
+      # When the log file rotates, the archived log will be renamed to this and gzipped. The
+      # %d is replaced with the previous day (yyyy-MM-dd). Custom rolling windows can be created
+      # by passing a SimpleDateFormat-compatible format as an argument: "%d{yyyy-MM-dd-hh}".
+      archivedLogFilenamePattern: ./logs/notion-%d.log.gz
+
+      # The number of archived files to keep.
+      archivedFileCount: 5
+
+      # The timezone used to format dates. HINT: USE THE DEFAULT, UTC.
+      timeZone: UTC
