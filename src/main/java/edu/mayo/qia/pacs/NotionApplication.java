@@ -94,6 +94,7 @@ public class NotionApplication extends Application<NotionConfiguration> {
     }
   };
 
+  @SuppressWarnings("unused")
   private final ShiroBundle<NotionConfiguration> shiro = new ShiroBundle<NotionConfiguration>() {
 
     @Override
