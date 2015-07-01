@@ -27,10 +27,13 @@ import org.springframework.stereotype.Component;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.mayo.qia.pacs.Audit;
 import edu.mayo.qia.pacs.Notion;
 import edu.mayo.qia.pacs.components.Device;
+import edu.mayo.qia.pacs.components.PoolManager;
 import edu.mayo.qia.pacs.dicom.DICOMReceiver.AssociationInfo;
 import edu.mayo.qia.pacs.metric.RateGauge;
 
@@ -46,6 +49,12 @@ public class MoveSCP extends DicomService implements CMoveSCP {
 
   @Autowired
   JdbcTemplate template;
+
+  @Autowired
+  ObjectMapper objectMapper;
+
+  @Autowired
+  PoolManager poolManager;
 
   public MoveSCP() {
     super(PresentationContexts);
@@ -81,9 +90,18 @@ public class MoveSCP extends DicomService implements CMoveSCP {
     });
     if (destination.applicationEntityTitle == null) {
       // 0xa801 is refused: Move Destination unknown
+      Audit.log(as.getCallingAET() + "@" + as.getSocket().getInetAddress().getHostName(), "unknown_destination", "C-MOVE");
       as.writeDimseRSP(pcid, CommandUtils.mkRSP(command, 0xa801));
       return;
     }
+
+    // Construct an object for the audit log
+    final ObjectNode node = objectMapper.createObjectNode();
+    node.put("RemoteDevice", destination.toString());
+    node.put("CalledAETitle", poolManager.getContainer(info.poolKey).getPool().applicationEntityTitle);
+    final String remoteDevice = as.getCallingAET() + "@" + as.getSocket().getInetAddress().getHostName();
+    final String retrieveAETitle = (as.getLocalAET() == null) ? as.getCalledAET() : as.getLocalAET();
+    node.put("RetrieveAETitle", retrieveAETitle);
 
     // Find the studies to send
     // Find the series we need to move
@@ -92,14 +110,17 @@ public class MoveSCP extends DicomService implements CMoveSCP {
     if (retrieveLevel.equalsIgnoreCase("STUDY")) {
       String uid = request.getString(Tag.StudyInstanceUID);
       seriesKeyList.addAll(template.queryForList("select SERIES.SeriesKey from SERIES, STUDY where SERIES.StudyKey = STUDY.StudyKey and STUDY.StudyInstanceUID = ? and STUDY.PoolKey = ?", Integer.class, uid, info.poolKey));
+      node.put("StudyInstanceUID", uid);
     }
     if (retrieveLevel.equalsIgnoreCase("SERIES")) {
       String uid = request.getString(Tag.SeriesInstanceUID);
       seriesKeyList.addAll(template.queryForList("select SERIES.SeriesKey from SERIES, STUDY where SERIES.SeriesInstanceUID = ? and STUDY.StudyKey = SERIES.StudyKey and STUDY.PoolKey = ?", Integer.class, uid, info.poolKey));
+      node.put("SeriesInstanceUID", uid);
     }
     if (seriesKeyList.size() == 0) {
       // 0xa801 is Unable to calculate number of matches
       as.writeDimseRSP(pcid, CommandUtils.mkRSP(command, 0xa701));
+      Audit.log(remoteDevice, "no_matching_series", "C-MOVE");
       return;
     }
 
@@ -120,6 +141,8 @@ public class MoveSCP extends DicomService implements CMoveSCP {
         }
       });
     }
+    node.put("NumberOfSeries", seriesKeyList.size());
+    node.put("NumberOfInstances", imageQueueCounter.getCount());
 
     FileMovedHandler callback = new FileMovedHandler() {
 
@@ -152,10 +175,12 @@ public class MoveSCP extends DicomService implements CMoveSCP {
       sender.send(callback);
     } catch (Exception e) {
       logger.error("ERROR: Failed to send", e);
+      Audit.log(remoteDevice, "failed_to_send", "C-MOVE: " + e.getMessage());
     } finally {
       sender.close();
     }
-    as.writeDimseRSP(pcid, CommandUtils.mkRSP(command, Status.Success));
 
+    as.writeDimseRSP(pcid, CommandUtils.mkRSP(command, Status.Success));
+    Audit.log(remoteDevice, "move_success", node);
   }
 }
