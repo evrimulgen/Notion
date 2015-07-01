@@ -58,7 +58,8 @@ logging:
     # Set this logger to debug if you would like to see the SQL hibernate generates
     org.hibernate.SQL: DEBUG
     org.hibernate.engine: ERROR
-
+    org.dcm4che2: ERROR
+    
     # Suppress hibernate statistics
     org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: ERROR
 
