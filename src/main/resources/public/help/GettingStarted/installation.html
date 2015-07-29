@@ -167,12 +167,12 @@
             
   <div class="section" id="installation">
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>After downloading Notion and unzipping, look in the <tt class="docutils literal"><span class="pre">Notion-x.x.x</span></tt> folder (where <tt class="docutils literal"><span class="pre">x.x.x</span></tt> is the version number).  This folder contains the following items:</p>
+<p>After downloading Notion and unzipping, look in the <code class="docutils literal"><span class="pre">Notion-x.x.x</span></code> folder (where <code class="docutils literal"><span class="pre">x.x.x</span></code> is the version number).  This folder contains the following items:</p>
 <dl class="docutils">
 <dt><span class="tt">Notion-x.x.x.jar</span></dt>
 <dd>The Jar file with the Notion classes and runtime files bundled.</dd>
 <dt><span class="tt">lib</span></dt>
-<dd>External Java libraries.  Must be maintained in the same directory as <tt class="docutils literal"><span class="pre">Notion-x.x.x.jar</span></tt> because the main jar file references the libraries by a relative path.</dd>
+<dd>External Java libraries.  Must be maintained in the same directory as <code class="docutils literal"><span class="pre">Notion-x.x.x.jar</span></code> because the main jar file references the libraries by a relative path.</dd>
 <dt><span class="tt">Documentation</span></dt>
 <dd>Contains this documentation</dd>
 <dt><span class="tt">notion.yml</span></dt>
@@ -257,23 +257,23 @@ shiro:
 </td></tr></table></div>
 <div class="section" id="db-web-interface">
 <h3>DB Web Interface<a class="headerlink" href="#db-web-interface" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">dbWeb</span></tt> option gives a port where Notion listens and shows a web interface to the embedded Derby database.  If omitted, Notion does not specify the DB interface.  More details are at <a class="reference internal" href="../Reference/operations.html#dbweb"><em>DBWeb Interface</em></a>.</p>
+<p>The <code class="docutils literal"><span class="pre">dbWeb</span></code> option gives a port where Notion listens and shows a web interface to the embedded Derby database.  If omitted, Notion does not specify the DB interface.  More details are at <a class="reference internal" href="../Reference/operations.html#dbweb"><span>DBWeb Interface</span></a>.</p>
 </div>
 <div class="section" id="database">
 <h3>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h3>
-<p>Notion requires the <a class="reference external" href="http://db.apache.org/derby/">Derby</a> embedded database, removing any external database dependancies.  The directory where Derby stores the database is specified in the <tt class="docutils literal"><span class="pre">url</span></tt> setting of the <tt class="docutils literal"><span class="pre">database</span></tt> section.  The directory is specified after the <tt class="docutils literal"><span class="pre">directory:</span></tt> portion of the <tt class="docutils literal"><span class="pre">url</span></tt>.  <tt class="docutils literal"><span class="pre">Username</span></tt> and <tt class="docutils literal"><span class="pre">password</span></tt> are optional settings.</p>
+<p>Notion requires the <a class="reference external" href="http://db.apache.org/derby/">Derby</a> embedded database, removing any external database dependancies.  The directory where Derby stores the database is specified in the <code class="docutils literal"><span class="pre">url</span></code> setting of the <code class="docutils literal"><span class="pre">database</span></code> section.  The directory is specified after the <code class="docutils literal"><span class="pre">directory:</span></code> portion of the <code class="docutils literal"><span class="pre">url</span></code>.  <code class="docutils literal"><span class="pre">Username</span></code> and <code class="docutils literal"><span class="pre">password</span></code> are optional settings.</p>
 </div>
 <div class="section" id="notion">
 <h3>Notion<a class="headerlink" href="#notion" title="Permalink to this headline">¶</a></h3>
-<p>The Notion section specifies where notion listens for incoming DICOM communications (<tt class="docutils literal"><span class="pre">dicomPort</span></tt>) and where image files are saved on disk (<tt class="docutils literal"><span class="pre">imageDirectory</span></tt>).  It is common to store images in the same directory as the Derby database.</p>
+<p>The Notion section specifies where notion listens for incoming DICOM communications (<code class="docutils literal"><span class="pre">dicomPort</span></code>) and where image files are saved on disk (<code class="docutils literal"><span class="pre">imageDirectory</span></code>).  It is common to store images in the same directory as the Derby database.</p>
 </div>
 <div class="section" id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
-<p>The logging level of the entire application (including non-Notion components such as Derby) can be controlled in the <tt class="docutils literal"><span class="pre">logging</span></tt> section of the configuration.  See <a class="reference external" href="http://dropwizard.io/manual/core.html#logging">http://dropwizard.io/manual/core.html#logging</a> for extensive documentation of logging.</p>
+<p>The logging level of the entire application (including non-Notion components such as Derby) can be controlled in the <code class="docutils literal"><span class="pre">logging</span></code> section of the configuration.  See <a class="reference external" href="http://dropwizard.io/manual/core.html#logging">http://dropwizard.io/manual/core.html#logging</a> for extensive documentation of logging.</p>
 </div>
 <div class="section" id="user-authentication-and-authorization-shiro">
 <h3>User Authentication and Authorization &#8211; Shiro<a class="headerlink" href="#user-authentication-and-authorization-shiro" title="Permalink to this headline">¶</a></h3>
-<p>Notion uses Shiro (<a class="reference external" href="http://shiro.apache.org/">http://shiro.apache.org/</a>) a pluggable authorization and authentication package.  Shiro enables Notion to authenticate against a diverse set of providers, including LDAP and Active Directory.  Configuration of Shiro is somewhat outside the scope of this documentation, but covered briefly in <a class="reference internal" href="../Reference/operations.html#shiro-config"><em>Authentication and Authorization Configuration</em></a>.</p>
+<p>Notion uses Shiro (<a class="reference external" href="http://shiro.apache.org/">http://shiro.apache.org/</a>) a pluggable authorization and authentication package.  Shiro enables Notion to authenticate against a diverse set of providers, including LDAP and Active Directory.  Configuration of Shiro is somewhat outside the scope of this documentation, but covered briefly in <a class="reference internal" href="../Reference/operations.html#shiro-config"><span>Authentication and Authorization Configuration</span></a>.</p>
 </div>
 </div>
 </div>
