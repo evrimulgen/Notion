@@ -167,16 +167,16 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>Getting started with Notion is straightforward.  After <a class="reference internal" href="installation.html#installation"><em>installation</em></a> of Notion, an instance should be up and running at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a>. <strong>NB:</strong> links on this page reference <span class="tt">http://localhost:8080</span> and can be visited if Notion is running on the local machine. Visiting the web app gives:</p>
+<p>Getting started with Notion is straightforward.  After <a class="reference internal" href="installation.html#installation"><span>installation</span></a> of Notion, an instance should be up and running at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a>. <strong>NB:</strong> links on this page reference <span class="tt">http://localhost:8080</span> and can be visited if Notion is running on the local machine. Visiting the web app gives:</p>
 <a class="reference internal image-reference" href="../_images/landing_page.png"><img alt="../_images/landing_page.png" class="align-center" src="../_images/landing_page.png" style="width: 512px;" /></a>
 <div class="section" id="create-a-user">
 <h2>Create a User<a class="headerlink" href="#create-a-user" title="Permalink to this headline">¶</a></h2>
-<p>Click the <em>Register</em> link on the landing page, and create a new user.  For this tutorial, <tt class="docutils literal"><span class="pre">notion</span></tt> will be the username.</p>
+<p>Click the <em>Register</em> link on the landing page, and create a new user.  For this tutorial, <code class="docutils literal"><span class="pre">notion</span></code> will be the username.</p>
 <a class="reference internal image-reference" href="../_images/register_user.png"><img alt="../_images/register_user.png" class="align-center" src="../_images/register_user.png" style="width: 512px;" /></a>
-<p>The new user will automatically be logged in.  The first user of a new Notion installation will be automatically granted administrator authorization.  <a class="reference internal" href="../Reference/operations.html#users-and-groups"><em>Users and Groups</em></a> gives more detail on configuration of other users and permissions for individual pools.</p>
+<p>The new user will automatically be logged in.  The first user of a new Notion installation will be automatically granted administrator authorization.  <a class="reference internal" href="../Reference/operations.html#users-and-groups"><span>Users and Groups</span></a> gives more detail on configuration of other users and permissions for individual pools.</p>
 <div class="section" id="goal">
 <h3>Goal<a class="headerlink" href="#goal" title="Permalink to this headline">¶</a></h3>
-<p>The goal of this tutorial is to introduce several of Notion&#8217;s concepts including <a class="reference internal" href="../Reference/reference.html#pools"><em>Pool</em></a>, <a class="reference internal" href="../Reference/reference.html#devices"><em>Device</em></a>, and <a class="reference internal" href="../Reference/reference.html#anonymization"><em>Anonymization</em></a>.  Once a simple <a class="reference internal" href="../Reference/reference.html#pools"><em>Pool</em></a> is configured, test images will be sent to the Pool, both with and without anonymization.</p>
+<p>The goal of this tutorial is to introduce several of Notion&#8217;s concepts including <a class="reference internal" href="../Reference/reference.html#pools"><span>Pool</span></a>, <a class="reference internal" href="../Reference/reference.html#devices"><span>Device</span></a>, and <a class="reference internal" href="../Reference/reference.html#anonymization"><span>Anonymization</span></a>.  Once a simple <a class="reference internal" href="../Reference/reference.html#pools"><span>Pool</span></a> is configured, test images will be sent to the Pool, both with and without anonymization.</p>
 </div>
 </div>
 <div class="section" id="create-a-pool">
@@ -205,7 +205,7 @@
 <h2>Working with the pool<a class="headerlink" href="#working-with-the-pool" title="Permalink to this headline">¶</a></h2>
 <p>Clicking on the <a class="reference external" href="http://localhost:8080/index.html#/pools/pool/1">Test pool</a> link shows details of our new test pool.</p>
 <img alt="../_images/created_test_pool.png" class="align-center" src="../_images/created_test_pool.png" />
-<p>To interact with a Pool from a DICOM tool, a <a class="reference internal" href="../Reference/reference.html#device"><em>Device</em></a> must be defined.  To create a Device, click on the <span class="tt">plus</span> icon next to <span class="tt">Devices</span> to bring up the Device dialog.  Enter the following information:</p>
+<p>To interact with a Pool from a DICOM tool, a <a class="reference internal" href="../Reference/reference.html#device"><span>Device</span></a> must be defined.  To create a Device, click on the <span class="tt">plus</span> icon next to <span class="tt">Devices</span> to bring up the Device dialog.  Enter the following information:</p>
 <a class="reference internal image-reference" href="../_images/new_device.png"><img alt="../_images/new_device.png" class="align-left" src="../_images/new_device.png" style="width: 300px;" /></a>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -236,7 +236,7 @@
 </tr>
 </tbody>
 </table>
-<p>All DICOM devices will be allowed to connect to the <span class="tt">test</span> Pool, including query, sending images and moving images to a third destination.  For this tutorial, our wildcard Device will give us great flexibility.  In practice, however, it may not be a good idea, see <a class="reference internal" href="../Reference/reference.html#devices"><em>Device</em></a> for more details on configuring Devices.</p>
+<p>All DICOM devices will be allowed to connect to the <span class="tt">test</span> Pool, including query, sending images and moving images to a third destination.  For this tutorial, our wildcard Device will give us great flexibility.  In practice, however, it may not be a good idea, see <a class="reference internal" href="../Reference/reference.html#devices"><span>Device</span></a> for more details on configuring Devices.</p>
 <p>Our Device list will look like this:</p>
 <img alt="../_images/device_list.png" class="align-center" src="../_images/device_list.png" />
 </div>
@@ -281,7 +281,7 @@ INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</s
 <span class="s">       cuid=1</span>.2.840.10008.5.1.4.1.2.2.1/Study Root Query/Retrieve Information Model - FIND
        <span class="nv">ts</span><span class="o">=</span>1.2.840.10008.1.2.1/Explicit VR Little Endian<span class="o">]</span>
 INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</span> &gt;&gt; 1:C-FIND-RSP<span class="o">[</span><span class="nv">pcid</span><span class="o">=</span>7, <span class="nv">status</span><span class="o">=</span>0H<span class="o">]</span>
-INFO - Received 0 matching entries in 0.055 s
+INFO - Received <span class="m">0</span> matching entries in 0.055 s
 INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</span> <span class="s">&lt;&lt; A-RELEA</span>SE-RQ
 INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</span> &gt;&gt; A-RELEASE-RP
 INFO - Released connection to <span class="nb">test</span>@localhost:11117
@@ -292,11 +292,11 @@ INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</s
 <div class="highlight-bash"><div class="highlight"><pre>&gt;&gt; java -classpath lib:<span class="s2">&quot;lib/*&quot;</span> org.dcm4che2.tool.dcmsnd.DcmSnd <span class="nb">test</span>@localhost:11117 /path/to/DICOM/Data
 Scanning files to send
 ....................................................................................................................................................................
-Scanned 164 files in 0.176s <span class="o">(=</span>1ms/file<span class="o">)</span>
+Scanned <span class="m">164</span> files in 0.176s <span class="o">(=</span>1ms/file<span class="o">)</span>
 Connected to <span class="nb">test</span>@localhost:11117 in 0.
-&lt;NB: INFO message removed <span class="k">for </span>brevity&gt;
+&lt;NB: INFO message removed <span class="k">for</span> brevity&gt;
 ....................................................................................................................................................................
-Sent 164 objects <span class="o">(=</span>3.0736637MB<span class="o">)</span> in 3.579s <span class="o">(=</span>879.4165KB/s<span class="o">)</span>
+Sent <span class="m">164</span> objects <span class="o">(=</span>3.0736637MB<span class="o">)</span> in 3.579s <span class="o">(=</span>879.4165KB/s<span class="o">)</span>
 Released connection to <span class="nb">test</span>@localhost:11117
 </pre></div>
 </div>
@@ -336,7 +336,7 @@ INFO - Query Response <span class="c">#1:</span>
 <span class="o">(</span>0020,1206<span class="o">)</span> IS <span class="c">#2 [2] Number of Study Related Series</span>
 <span class="o">(</span>0020,1208<span class="o">)</span> IS <span class="c">#4 [164] Number of Study Related Instances</span>
 
-INFO - Received 1 matching entries in 0.043 s
+INFO - Received <span class="m">1</span> matching entries in 0.043 s
 INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</span> <span class="s">&lt;&lt; A-RELEA</span>SE-RQ
 INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</span> &gt;&gt; A-RELEASE-RP
 INFO - Released connection to <span class="nb">test</span>@localhost:11117
@@ -348,7 +348,7 @@ INFO - <span class="nb">test</span><span class="o">(</span>1<span class="o">)</s
 </div>
 <div class="section" id="next-steps">
 <h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
-<p>Learn you some <a class="reference internal" href="dicom.html#dicom"><em>DICOM</em></a> for great good!</p>
+<p>Learn you some <a class="reference internal" href="dicom.html#dicom"><span>DICOM</span></a> for great good!</p>
 </div>
 </div>
 

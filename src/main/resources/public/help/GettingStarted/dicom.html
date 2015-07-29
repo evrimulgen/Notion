@@ -173,26 +173,26 @@
 <h2>Device Setup<a class="headerlink" href="#device-setup" title="Permalink to this headline">¶</a></h2>
 <p>Access to a Pool&#8217;s services (Store, Query and Retrieve) are controlled by the list of Devices associated with a Pool.  Each operation on a Pool requires a matching Device to be found before the operation is allowed.  A Device consists of 4 elements:</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></code></dt>
 <dd>The 16 character name of the Application Entity</dd>
-<dt><tt class="docutils literal"><span class="pre">Hostname</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Hostname</span></code></dt>
 <dd>The IP address (numeric or text) of the Application Entity</dd>
-<dt><tt class="docutils literal"><span class="pre">Port</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Port</span></code></dt>
 <dd>Port where the Application Entity is listening.</dd>
-<dt><tt class="docutils literal"><span class="pre">Description</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Description</span></code></dt>
 <dd>An optional description of the Device.</dd>
 </dl>
 <a class="reference internal image-reference" href="../_images/new_device.png"><img alt="../_images/new_device.png" class="align-center" src="../_images/new_device.png" style="width: 300px;" /></a>
-<p>To find a matching Device, Notion examines the incoming request, trying to find a match in the list of Devices.  Matches are found using <a class="reference external" href="http://www.vogella.com/tutorials/JavaRegularExpressions/article.html">Java&#8217;s regular expression rules</a>.  For instance, the incoming Application Entity <tt class="docutils literal"><span class="pre">Incoming</span></tt> will match <tt class="docutils literal"><span class="pre">Incoming</span></tt>, <tt class="docutils literal"><span class="pre">Incom.*</span></tt> and <tt class="docutils literal"><span class="pre">.*</span></tt>.  The Application Entity Title and Hostname are matched according to the regular expression rules.  Port is not matched.</p>
+<p>To find a matching Device, Notion examines the incoming request, trying to find a match in the list of Devices.  Matches are found using <a class="reference external" href="http://www.vogella.com/tutorials/JavaRegularExpressions/article.html">Java&#8217;s regular expression rules</a>.  For instance, the incoming Application Entity <code class="docutils literal"><span class="pre">Incoming</span></code> will match <code class="docutils literal"><span class="pre">Incoming</span></code>, <code class="docutils literal"><span class="pre">Incom.*</span></code> and <code class="docutils literal"><span class="pre">.*</span></code>.  The Application Entity Title and Hostname are matched according to the regular expression rules.  Port is not matched.</p>
 <p>If a matching Device is not found, the incoming operation is rejected.  This is the only available DICOM mechanism for authorization, and does not allow very fine grain access controls.</p>
 </div>
 <div class="section" id="store">
 <h2>Store<a class="headerlink" href="#store" title="Permalink to this headline">¶</a></h2>
-<p>The Store service is invoked when a remote Application Entity attempts to send images to a Notion Pool.  The receiving Pool must be specified as the <tt class="docutils literal"><span class="pre">Called</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></tt> and must match (exact and case-sensitive).  Notion matches the <tt class="docutils literal"><span class="pre">Calling</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></tt> and remote Hostname against the list of Devices defined in the Pool according to the rules above.  If the Device is defined to Notion, the images are accepted and anonymized if the Pool is so configured.</p>
+<p>The Store service is invoked when a remote Application Entity attempts to send images to a Notion Pool.  The receiving Pool must be specified as the <code class="docutils literal"><span class="pre">Called</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></code> and must match (exact and case-sensitive).  Notion matches the <code class="docutils literal"><span class="pre">Calling</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></code> and remote Hostname against the list of Devices defined in the Pool according to the rules above.  If the Device is defined to Notion, the images are accepted and anonymized if the Pool is so configured.</p>
 </div>
 <div class="section" id="query">
 <h2>Query<a class="headerlink" href="#query" title="Permalink to this headline">¶</a></h2>
-<p>The Query service is invoked when a remote Application Entity attempts to query a Notion Pool.    The queried Pool must be specified as the <tt class="docutils literal"><span class="pre">Called</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></tt> and must match (exact and case-sensitive).  Notion matches the <tt class="docutils literal"><span class="pre">Calling</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></tt> and remote Hostname against the list of Devices defined in the Pool according to the rules above.  If the Device is matched, the DICOM query is completed.  Notion supports Exam and Series queries.</p>
+<p>The Query service is invoked when a remote Application Entity attempts to query a Notion Pool.    The queried Pool must be specified as the <code class="docutils literal"><span class="pre">Called</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></code> and must match (exact and case-sensitive).  Notion matches the <code class="docutils literal"><span class="pre">Calling</span> <span class="pre">Application</span> <span class="pre">Entity</span> <span class="pre">Title</span></code> and remote Hostname against the list of Devices defined in the Pool according to the rules above.  If the Device is matched, the DICOM query is completed.  Notion supports Exam and Series queries.</p>
 </div>
 <div class="section" id="retrieve">
 <h2>Retrieve<a class="headerlink" href="#retrieve" title="Permalink to this headline">¶</a></h2>
@@ -200,7 +200,7 @@
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>Suppose a Pool (Application Entity Title of <tt class="docutils literal"><span class="pre">femur</span></tt>) has the following Devices defined (Application Entity Title abbreviated by AET):</p>
+<p>Suppose a Pool (Application Entity Title of <code class="docutils literal"><span class="pre">femur</span></code>) has the following Devices defined (Application Entity Title abbreviated by AET):</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="9%" />
@@ -217,31 +217,31 @@
 <tr class="row-even"><td>.*</td>
 <td>head.hospital.edu</td>
 <td>0</td>
-<td>Any AET from <tt class="docutils literal"><span class="pre">head.hospital.edu</span></tt></td>
+<td>Any AET from <code class="docutils literal"><span class="pre">head.hospital.edu</span></code></td>
 </tr>
 <tr class="row-odd"><td>radius</td>
 <td>arm.hospital.edu</td>
 <td>1234</td>
-<td>The <tt class="docutils literal"><span class="pre">radius</span></tt> AET on <tt class="docutils literal"><span class="pre">arm.hospital.edu</span></tt></td>
+<td>The <code class="docutils literal"><span class="pre">radius</span></code> AET on <code class="docutils literal"><span class="pre">arm.hospital.edu</span></code></td>
 </tr>
 <tr class="row-even"><td>cranium</td>
 <td>.*.hospital.edu</td>
 <td>0</td>
-<td><tt class="docutils literal"><span class="pre">cranium</span></tt> AET from any host in the hospital domain</td>
+<td><code class="docutils literal"><span class="pre">cranium</span></code> AET from any host in the hospital domain</td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="query-store">
 <h3>Query &amp; Store<a class="headerlink" href="#query-store" title="Permalink to this headline">¶</a></h3>
-<p>Based on the first Device, any AET coming from <tt class="docutils literal"><span class="pre">head.hospital.edu</span></tt> can Store and Query the <tt class="docutils literal"><span class="pre">femur</span></tt> Pool, as can <tt class="docutils literal"><span class="pre">radius</span></tt> from <tt class="docutils literal"><span class="pre">arm.hospital.edu</span></tt>.  The <tt class="docutils literal"><span class="pre">cranium</span></tt> AET can be matched against any hostname in the <tt class="docutils literal"><span class="pre">hospital.edu</span></tt> domain, thus any host can query <tt class="docutils literal"><span class="pre">femur</span></tt>, if the use an AET of <tt class="docutils literal"><span class="pre">cranium</span></tt>.</p>
+<p>Based on the first Device, any AET coming from <code class="docutils literal"><span class="pre">head.hospital.edu</span></code> can Store and Query the <code class="docutils literal"><span class="pre">femur</span></code> Pool, as can <code class="docutils literal"><span class="pre">radius</span></code> from <code class="docutils literal"><span class="pre">arm.hospital.edu</span></code>.  The <code class="docutils literal"><span class="pre">cranium</span></code> AET can be matched against any hostname in the <code class="docutils literal"><span class="pre">hospital.edu</span></code> domain, thus any host can query <code class="docutils literal"><span class="pre">femur</span></code>, if the use an AET of <code class="docutils literal"><span class="pre">cranium</span></code>.</p>
 </div>
 <div class="section" id="retrive">
 <h3>Retrive<a class="headerlink" href="#retrive" title="Permalink to this headline">¶</a></h3>
-<p>The only valid retrieve destination Device is <tt class="docutils literal"><span class="pre">radius</span></tt> listening at port <tt class="docutils literal"><span class="pre">1234</span></tt> on <tt class="docutils literal"><span class="pre">arm.hospital.edu</span></tt>.  The other two Devices do not have valid ports, and the regular expression in the <tt class="docutils literal"><span class="pre">cranium</span></tt> Device makes it impossible to send images.</p>
+<p>The only valid retrieve destination Device is <code class="docutils literal"><span class="pre">radius</span></code> listening at port <code class="docutils literal"><span class="pre">1234</span></code> on <code class="docutils literal"><span class="pre">arm.hospital.edu</span></code>.  The other two Devices do not have valid ports, and the regular expression in the <code class="docutils literal"><span class="pre">cranium</span></code> Device makes it impossible to send images.</p>
 </div>
 <div class="section" id="match-examples">
 <h3>Match Examples<a class="headerlink" href="#match-examples" title="Permalink to this headline">¶</a></h3>
-<p>Each Application Entity is represented in the form <tt class="docutils literal"><span class="pre">AET&#64;Hostname:Port</span></tt> with matches based on the above table shown.</p>
+<p>Each Application Entity is represented in the form <code class="docutils literal"><span class="pre">AET&#64;Hostname:Port</span></code> with matches based on the above table shown.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="31%" />
@@ -261,25 +261,25 @@
 <td>no</td>
 <td>no</td>
 <td>no</td>
-<td>Partial match <tt class="docutils literal"><span class="pre">.*&#64;head.hospital.edu</span></tt> (not Hostname)</td>
+<td>Partial match <code class="docutils literal"><span class="pre">.*&#64;head.hospital.edu</span></code> (not Hostname)</td>
 </tr>
 <tr class="row-odd"><td>mandible&#64;head.hospital.edu:104</td>
 <td>yes</td>
 <td>yes</td>
 <td>no</td>
-<td>Matches <tt class="docutils literal"><span class="pre">.*&#64;head.hospital.edu</span></tt></td>
+<td>Matches <code class="docutils literal"><span class="pre">.*&#64;head.hospital.edu</span></code></td>
 </tr>
 <tr class="row-even"><td>cranium&#64;leg.hospital.edu:1234</td>
 <td>yes</td>
 <td>yes</td>
 <td>no</td>
-<td>Matches <tt class="docutils literal"><span class="pre">cranium&#64;.*.hospital.edu</span></tt></td>
+<td>Matches <code class="docutils literal"><span class="pre">cranium&#64;.*.hospital.edu</span></code></td>
 </tr>
 <tr class="row-odd"><td>radius&#64;arm.hospital.edu</td>
 <td>yes</td>
 <td>yes</td>
 <td>yes</td>
-<td>Exact match <tt class="docutils literal"><span class="pre">radius&#64;arm.hospital.edu:1234</span></tt></td>
+<td>Exact match <code class="docutils literal"><span class="pre">radius&#64;arm.hospital.edu:1234</span></code></td>
 </tr>
 </tbody>
 </table>

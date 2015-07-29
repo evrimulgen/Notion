@@ -1,6 +1,0 @@
-
-### Anonymization ###
-
-##### CTP Configuration #####
-##### Scripts #####
-
