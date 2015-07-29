@@ -102,7 +102,7 @@ public class Study {
     node.put("StudyDate", StudyDate == null ? "" : StudyDate.toString());
     node.put("StudyTime", StudyTime == null ? "" : StudyTime.toString());
     node.put("ReferringPhysicianName", ReferringPhysicianName == null ? "" : ReferringPhysicianName.toString());
-    node.put("StudyDescription", StudyDescription.toString());
+    node.put("StudyDescription", StudyDescription == null ? "" : StudyDescription.toString());
     return node;
   }
 }
