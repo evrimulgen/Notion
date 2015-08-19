@@ -29,7 +29,6 @@ import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.secnod.dropwizard.shiro.ShiroBundle;
 import org.secnod.dropwizard.shiro.ShiroConfiguration;
 import org.secnod.shiro.jaxrs.ShiroExceptionMapper;
 import org.secnod.shiro.jersey.ShiroResourceFilterFactory;
@@ -93,15 +92,6 @@ public class NotionApplication extends Application<NotionConfiguration> {
       configuration.setProperty("hibernate.show_sql", "true");
       configuration.setProperty("hibernate.session.events.log", "false");
       configuration.setProperty("show_sql", "true");
-    }
-  };
-
-  @SuppressWarnings("unused")
-  private final ShiroBundle<NotionConfiguration> shiro = new ShiroBundle<NotionConfiguration>() {
-
-    @Override
-    protected ShiroConfiguration narrow(NotionConfiguration configuration) {
-      return configuration.shiro;
     }
   };
 

@@ -19,7 +19,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,7 +45,6 @@ import org.springframework.stereotype.Component;
 import org.trimou.Mustache;
 import org.trimou.engine.MustacheEngine;
 import org.trimou.engine.MustacheEngineBuilder;
-import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -58,7 +56,6 @@ import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
-import com.sun.jersey.api.client.ClientResponse.Status;
 
 import edu.mayo.qia.pacs.Audit;
 import edu.mayo.qia.pacs.Notion;
@@ -67,7 +64,6 @@ import edu.mayo.qia.pacs.ctp.Anonymizer;
 import edu.mayo.qia.pacs.dicom.DcmSnd;
 import edu.mayo.qia.pacs.dicom.TagLoader;
 import edu.mayo.qia.pacs.metric.RateGauge;
-import edu.mayo.qia.pacs.rest.SimpleResponse;
 
 /**
  * Manage a particular pool.
@@ -628,7 +624,6 @@ public class PoolContainer {
     // Collect up all the files to forward, send them on and remove
     List<File> toProcess = new ArrayList<File>();
     
-    // FIXME!!  Does not remove...
     while (!instancesToForward.isEmpty()){
       toProcess.add(instancesToForward.poll());
     }
