@@ -107,7 +107,7 @@ public class DICOMReceiver implements AssociationListener, Managed {
    */
   @Override
   public synchronized void start() throws Exception {
-    logger.info("Starting");
+    logger.debug("Starting");
     nc.setPort(configuration.notion.dicomPort);
     device.setNetworkApplicationEntity(ae);
     device.setNetworkConnection(nc);

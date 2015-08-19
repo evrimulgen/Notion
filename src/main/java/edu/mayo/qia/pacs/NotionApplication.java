@@ -164,7 +164,7 @@ public class NotionApplication extends Application<NotionConfiguration> {
         setFilterChainResolver(shiroEnv.getFilterChainResolver());
         if (getFilterChainResolver() == null) {
           FilterChainManager fcMan = new DefaultFilterChainManager();
-          logger.info("Filters: " + fcMan.getFilters().toString());
+          logger.debug("Filters: " + fcMan.getFilters().toString());
           Filter filter = fcMan.getFilters().get("user");
           if (filter instanceof UserFilter) {
             UserFilter uf = (UserFilter) filter;

@@ -90,7 +90,7 @@ public class LookupEndpoint extends TableEndpoint {
   @Path("/create")
   @Produces(MediaType.APPLICATION_JSON)
   public Response createRecord(@Context UriInfo uriInfo, @FormParam("Type") String type, @FormParam("Name") String name, @FormParam("Value") String value) throws Exception {
-    logger.info("Create: " + type + "/" + name + "/" + value);
+    logger.debug("Create: " + type + "/" + name + "/" + value);
     Anonymizer anonymizer = Notion.context.getBean("anonymizer", Anonymizer.class);
     anonymizer.setPool(poolManager.getContainer(poolKey).getPool());
     ObjectNode json;
@@ -117,7 +117,7 @@ public class LookupEndpoint extends TableEndpoint {
   @Path("/update")
   @Produces(MediaType.APPLICATION_JSON)
   public Response createRecord(@Context UriInfo uriInfo, @FormParam("LookupKey") final Integer lookupKey, @FormParam("Type") final String type, @FormParam("Name") final String name, @FormParam("Value") final String value) throws Exception {
-    logger.info("Update: " + lookupKey + "/" + type + "/" + name + "/" + value);
+    logger.debug("Update: " + lookupKey + "/" + type + "/" + name + "/" + value);
     Anonymizer anonymizer = Notion.context.getBean("anonymizer", Anonymizer.class);
     anonymizer.setPool(poolManager.getContainer(poolKey).getPool());
     SimpleResponse json = new SimpleResponse();

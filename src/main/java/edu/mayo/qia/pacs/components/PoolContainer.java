@@ -123,7 +123,7 @@ public class PoolContainer {
     if (this.pool.poolKey <= 0) {
       throw new RuntimeException("PoolKey must be set!");
     }
-    logger.info("Starting up pool: " + pool);
+    logger.debug("Starting up pool: " + pool);
 
     // Do we have a sequence for this pool?
     this.sequenceName = "UID" + pool.poolKey;
@@ -344,7 +344,7 @@ public class PoolContainer {
 
       // Index the file
       DicomObject tags = TagLoader.loadTags(inFile);
-      logger.info("Saving file for " + tags.getString(Tag.PatientName));
+      logger.debug("Saving file for " + tags.getString(Tag.PatientName));
 
       File relativePath = constructRelativeFileName(tags);
 
@@ -436,7 +436,7 @@ public class PoolContainer {
 
         // Copy the file, remove later
         Files.copy(inFile, outFile);
-        logger.info("Moved file " + inFile + " to " + outFile);
+        logger.debug("Moved file " + inFile + " to " + outFile);
 
         // Queue the file up to be forwarded later
         instancesToForward.add(outFile);
@@ -473,7 +473,7 @@ public class PoolContainer {
   }
 
   public void stop() {
-    logger.info("Shutting down pool: " + pool);
+    logger.debug("Shutting down pool: " + pool);
     // Stop all the stages
     ctpAnonymizer.shutdown();
   }

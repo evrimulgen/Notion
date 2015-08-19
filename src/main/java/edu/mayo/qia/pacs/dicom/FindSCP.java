@@ -121,8 +121,8 @@ public class FindSCP extends DicomService implements CFindSCP {
       throw new DicomServiceException(rq, Status.ProcessingFailure, info.failureMessage);
     }
 
-    logger.info("Got request: \n" + rq);
-    logger.info("Got data: \n" + data);
+    logger.debug("Got request: \n" + rq);
+    logger.debug("Got data: \n" + data);
 
     // Find the retrieve level
     if (!data.contains(Tag.QueryRetrieveLevel)) {
@@ -131,7 +131,7 @@ public class FindSCP extends DicomService implements CFindSCP {
       return;
     }
     final String retrieveLevel = data.get(Tag.QueryRetrieveLevel).getString(null, true);
-    logger.info("Retrieve level: " + retrieveLevel);
+    logger.debug("Retrieve level: " + retrieveLevel);
 
     // We should send back the RetrieveAET
     final String retrieveAETitle = (as.getLocalAET() == null) ? as.getCalledAET() : as.getLocalAET();
@@ -160,13 +160,13 @@ public class FindSCP extends DicomService implements CFindSCP {
         tagColumn.put(Tag.SeriesTime, "SeriesTime");
 
         query.append(" STUDY.StudyDate as SeriesDate, STUDY.StudyTime as SeriesTime, from SERIES, STUDY where STUDY.StudyInstanceUID = ? and STUDY.StudyKey = SERIES.StudyKey");
-        logger.info("SERIES Query: " + query);
-        logger.info("StudyUID: " + uid);
+        logger.debug("SERIES Query: " + query);
+        logger.debug("StudyUID: " + uid);
         template.query(query.toString(), new Object[] { uid }, new RowCallbackHandler() {
 
           @Override
           public void processRow(ResultSet rs) throws SQLException {
-            logger.info("Found SERIES: " + rs.getString("SeriesInstanceUID"));
+            logger.debug("Found SERIES: " + rs.getString("SeriesInstanceUID"));
 
             ObjectNode node = objectMapper.createObjectNode();
             node.put("RemoteDevice", remoteDevice);
@@ -215,7 +215,7 @@ public class FindSCP extends DicomService implements CFindSCP {
 
             Audit.log(remoteDevice, "find_success", node);
             try {
-              logger.info("Sending \n" + response);
+              logger.debug("Sending \n" + response);
               as.writeDimseRSP(pcid, pending, response);
             } catch (IOException e) {
               logger.error("Error writing response", e);
@@ -287,8 +287,8 @@ public class FindSCP extends DicomService implements CFindSCP {
 
       // Need to handle Dates and times
       try {
-        logger.info("Ready to run qeury " + query);
-        logger.info("Arguments: " + args);
+        logger.debug("Ready to run qeury " + query);
+        logger.debug("Arguments: " + args);
 
         template.query(query.toString(), args.toArray(), new RowCallbackHandler() {
 
@@ -306,7 +306,7 @@ public class FindSCP extends DicomService implements CFindSCP {
               if (tagColumn.containsKey(element.tag())) {
                 String column = tagColumn.get(element.tag());
                 int columnNumber = rs.findColumn(column);
-                logger.info(element.toString() + " maps to Column " + columnNumber + " " + column + " with type " + rs.getMetaData().getColumnTypeName(columnNumber));
+                logger.debug(element.toString() + " maps to Column " + columnNumber + " " + column + " with type " + rs.getMetaData().getColumnTypeName(columnNumber));
 
                 // Figure out what type it is (string or data)
                 int colType = rs.getMetaData().getColumnType(columnNumber);
@@ -343,7 +343,7 @@ public class FindSCP extends DicomService implements CFindSCP {
             node.put(Anonymizer.fieldMap.get(Tag.RetrieveAETitle), retrieveAETitle);
             Audit.log(remoteDevice, "find_success", node);
             try {
-              logger.info("Sending \n" + response);
+              logger.debug("Sending \n" + response);
               as.writeDimseRSP(pcid, pending, response);
             } catch (IOException e) {
               logger.error("Error writing response", e);
