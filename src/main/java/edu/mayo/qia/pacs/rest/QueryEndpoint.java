@@ -250,7 +250,7 @@ public class QueryEndpoint {
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
   public Response createQuery(@FormDataParam("file") InputStream spreadSheetInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("connectorKey") int connectorKey) throws Exception {
-    logger.info("handling  " + fileDetail.getFileName());
+    logger.debug("handling  " + fileDetail.getFileName());
     // Use POI or SuperCSV to parse
     fileDetail.getFileName();
     if (fileDetail.getFileName().toLowerCase().endsWith(".xls")) {

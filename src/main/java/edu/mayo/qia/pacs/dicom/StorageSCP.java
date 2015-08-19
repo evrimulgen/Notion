@@ -118,7 +118,7 @@ public class StorageSCP extends StorageService {
     // XB3 File rename = new File(file.getParent(), iuid);
     final File rename = new File(root, uuid.toString());
     file.renameTo(rename);
-    logger.info("Saving file to " + rename);
+    logger.debug("Saving file to " + rename);
     info.imageCount++;
     imageMeter.mark();
     imagesPerSecond.mark();
@@ -131,6 +131,6 @@ public class StorageSCP extends StorageService {
       logger.error("Error handling new instance", e);
       throw new DicomServiceException(rq, Status.ProcessingFailure, "Failed to process image");
     }
-    logger.info("Done");
+    logger.debug("Done");
   }
 }

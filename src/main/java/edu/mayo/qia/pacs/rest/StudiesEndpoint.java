@@ -93,9 +93,9 @@ public class StudiesEndpoint {
     // Build the query
     MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
-    logger.info("query parameters\n" + queryParameters);
+    logger.debug("query parameters\n" + queryParameters);
 
-    logger.info("query object\n" + qParams);
+    logger.debug("query object\n" + qParams);
 
     StringBuilder query = new StringBuilder("select * from STUDY where PoolKey = ?");
     ArrayList<Object> parameters = new ArrayList<Object>();
