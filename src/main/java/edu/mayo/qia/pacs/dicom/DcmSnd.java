@@ -66,7 +66,6 @@ import org.dcm4che2.net.Device;
 import org.dcm4che2.net.DimseRSPHandler;
 import org.dcm4che2.net.NetworkApplicationEntity;
 import org.dcm4che2.net.NetworkConnection;
-import org.dcm4che2.net.NewThreadExecutor;
 import org.dcm4che2.net.NoPresentationContextException;
 import org.dcm4che2.net.PDVOutputStream;
 import org.dcm4che2.net.TransferCapability;
@@ -111,17 +110,17 @@ public class DcmSnd {
 
   private int transcoderBufferSize = 1024;
 
-  private int filesSent = 0;
+   int filesSent = 0;
 
-  private long totalSize = 0L;
+  long totalSize = 0L;
 
   private boolean fileref = false;
 
-  private boolean stgcmt = false;
+  boolean stgcmt = false;
 
-  private long shutdownDelay = 1000L;
+  long shutdownDelay = 1000L;
 
-  private DicomObject stgCmtResult;
+  DicomObject stgCmtResult;
 
   private DicomObject coerceAttrs;
 

@@ -53,6 +53,7 @@ public class ConnectorEndpoint {
   @Context
   ResourceContext resourceContext;
 
+  @SuppressWarnings("unchecked")
   @GET
   @UnitOfWork
   @Produces(MediaType.APPLICATION_JSON)
