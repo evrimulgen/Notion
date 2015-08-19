@@ -7,16 +7,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,13 +58,16 @@ import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
+import com.sun.jersey.api.client.ClientResponse.Status;
 
 import edu.mayo.qia.pacs.Audit;
 import edu.mayo.qia.pacs.Notion;
 import edu.mayo.qia.pacs.NotionConfiguration;
 import edu.mayo.qia.pacs.ctp.Anonymizer;
+import edu.mayo.qia.pacs.dicom.DcmSnd;
 import edu.mayo.qia.pacs.dicom.TagLoader;
 import edu.mayo.qia.pacs.metric.RateGauge;
+import edu.mayo.qia.pacs.rest.SimpleResponse;
 
 /**
  * Manage a particular pool.
@@ -93,6 +99,7 @@ public class PoolContainer {
   File scriptsDirectory;
   File incomingDirectory;
   File imageDirectory;
+  ConcurrentLinkedQueue<File> instancesToForward= new ConcurrentLinkedQueue<File>();
   PipelineStage ctpAnonymizer = null;
 
   @Autowired
@@ -435,6 +442,9 @@ public class PoolContainer {
         Files.copy(inFile, outFile);
         logger.info("Moved file " + inFile + " to " + outFile);
 
+        // Queue the file up to be forwarded later
+        instancesToForward.add(outFile);
+        
         // Delete the input file, it is not needed any more
         if (inFile.exists()) {
           inFile.delete();
@@ -610,5 +620,53 @@ public class PoolContainer {
         }
       }
     });
+  }
+
+  public void processAutoForward() {
+    // First check our queue
+    if ( instancesToForward.isEmpty() ) { return; }
+    // Collect up all the files to forward, send them on and remove
+    List<File> toProcess = new ArrayList<File>();
+    
+    // FIXME!!  Does not remove...
+    while (!instancesToForward.isEmpty()){
+      toProcess.add(instancesToForward.poll());
+    }
+    // Get all the devices
+    Session session = sessionFactory.openSession();
+    
+    Pool localPool = (Pool) session.byId(Pool.class).load(this.pool.poolKey);
+    // Force load
+    localPool.getDevices().size();
+
+    for ( Device device : localPool.getDevices()) {
+      if ( device.isAutoforward) {
+        // Send our batch of files
+        logger.debug("Autoforwarding " + toProcess.size() + " instance(s) to " + device);
+        try {
+          DcmSnd sender = new DcmSnd("autoforward to " + device);
+          // Startup the sender
+          sender.setRemoteHost(device.hostName);
+          sender.setRemotePort(device.port);
+          sender.setCalledAET(device.applicationEntityTitle);
+          String calling = device.callingApplicationEntityTitle;
+          if ( calling == null ) { calling = pool.applicationEntityTitle; }
+          sender.setCalling(calling);
+          for (File f : toProcess) {
+            if (f.isFile()) {
+              sender.addFile(f);
+            }
+          }
+          sender.configureTransferCapability();
+          sender.open();
+          sender.send(null);
+          sender.close();
+
+        } catch (Exception e) {
+          logger.error("Failed to autoforward to " + device, e);
+        } 
+      }
+    }
+      session.close();
   }
 }
