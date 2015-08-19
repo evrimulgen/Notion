@@ -1,6 +1,7 @@
 package edu.mayo.qia.pacs.components;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,8 @@ public final class Device {
   public String description = null;
   public int port = 0;
   public String callingApplicationEntityTitle = null;
+  @Column(columnDefinition = "INTEGER")
+  public boolean isAutoforward = false;
 
   @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinColumn(name = "PoolKey")
@@ -63,6 +66,7 @@ public final class Device {
     this.description = update.description;
     this.port = update.port;
     this.hostName = update.hostName;
+    this.isAutoforward = update.isAutoforward;
   }
 
   public String toString() {

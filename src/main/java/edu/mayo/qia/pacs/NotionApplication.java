@@ -66,6 +66,7 @@ import edu.mayo.qia.pacs.db.GroupDAO;
 import edu.mayo.qia.pacs.db.GroupRoleDAO;
 import edu.mayo.qia.pacs.db.UserDAO;
 import edu.mayo.qia.pacs.dicom.DICOMReceiver;
+import edu.mayo.qia.pacs.job.AutoForwarder;
 import edu.mayo.qia.pacs.job.CacheCleaner;
 import edu.mayo.qia.pacs.managed.DBWebServer;
 import edu.mayo.qia.pacs.managed.QuartzManager;
@@ -90,6 +91,7 @@ public class NotionApplication extends Application<NotionConfiguration> {
     protected void configure(org.hibernate.cfg.Configuration configuration) {
       super.configure(configuration);
       configuration.setProperty("hibernate.show_sql", "true");
+      configuration.setProperty("hibernate.session.events.log", "false");
       configuration.setProperty("show_sql", "true");
     }
   };
@@ -232,6 +234,10 @@ public class NotionApplication extends Application<NotionConfiguration> {
 
     job = newJob(CacheCleaner.class).build();
     trigger = newTrigger().startNow().withSchedule(simpleSchedule().withIntervalInMinutes(10).repeatForever()).build();
+    scheduler.scheduleJob(job, trigger);
+
+    job = newJob(AutoForwarder.class).build();
+    trigger = newTrigger().startNow().withSchedule(simpleSchedule().withIntervalInMinutes(1).repeatForever()).build();
     scheduler.scheduleJob(job, trigger);
 
     logger.info("\n\n=====\nStarted Notion Test:\nImageDirectory: \n" + configuration.notion.imageDirectory + "\nDBWeb:\nhttp://localhost:" + configuration.dbWeb + "\n\nDICOMPort: " + configuration.notion.dicomPort + "\n=====\n\n");
