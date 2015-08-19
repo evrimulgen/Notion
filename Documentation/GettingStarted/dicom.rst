@@ -25,6 +25,9 @@ Access to a Pool's services (Store, Query and Retrieve) are controlled by the li
 ``Port``
   Port where the Application Entity is listening.
 
+``IsAutoforward``
+  When true, forward this Pool's incoming messages to this destination.
+
 ``Description``
   An optional description of the Device.
 

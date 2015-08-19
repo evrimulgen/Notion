@@ -18,11 +18,10 @@
       <input type="text" placeholder="Port" id="formname" ng-model="deviceModel.port" class="form-control"></input>
     </div>
 
-   <div class="checkbox">
-     <label>
-       <input ng-model="deviceModel.isAutoforward" type="checkbox"> Autoforward to this device
-     </label>
-   </div>
+    <div class="form-group">
+      <label class="control-label">Autoforward:</label><br/>
+          <input type="checkbox" ng-model="deviceModel.isAutoforward"> Autoforward all incoming images to this device</input>
+    </div>
 
     <div class="form-group">
       <label class="control-label">Description:</label>
