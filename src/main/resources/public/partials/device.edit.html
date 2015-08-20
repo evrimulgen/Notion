@@ -5,7 +5,7 @@
 
     <div class="form-group">
       <label class="control-label">AE Title:</label>
-      <input type="text" placeholder="AE Title" class="form-control" ng-model="deviceModel.applicationEntityTitle"></input>
+      <input type="text" placeholder="AE Title" class="form-control" ng-model="deviceModel.applicationEntityTitle" autofocus></input>
     </div>
 
     <div class="form-group">
@@ -18,6 +18,10 @@
       <input type="text" placeholder="Port" id="formname" ng-model="deviceModel.port" class="form-control"></input>
     </div>
 
+    <div class="form-group">
+      <label class="control-label">Autoforward:</label><br/>
+          <input type="checkbox" ng-model="deviceModel.isAutoforward"> Autoforward all incoming images to this device</input>
+    </div>
 
     <div class="form-group">
       <label class="control-label">Description:</label>
