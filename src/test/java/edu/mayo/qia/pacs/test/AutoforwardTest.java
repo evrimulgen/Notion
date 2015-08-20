@@ -20,7 +20,6 @@ import edu.mayo.qia.pacs.components.PoolManager;
 import edu.mayo.qia.pacs.components.Script;
 import edu.mayo.qia.pacs.ctp.Anonymizer;
 import edu.mayo.qia.pacs.dicom.DcmQR;
-import edu.mayo.qia.pacs.dicom.TagLoader;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AutoforwardTest extends PACSTest {
@@ -34,21 +33,20 @@ public class AutoforwardTest extends PACSTest {
   @Test
   public void anonymizeBasics() throws Exception {
 
-    UUID uid = UUID.randomUUID();
     String aet;
-    
+
     // Autoforward pool
-    aet= uid.toString().substring(0, 10);
-    Pool autoforwardPool = new Pool(aet,aet,aet,false);
+    aet = UUID.randomUUID().toString().substring(0, 10);
+    Pool autoforwardPool = new Pool(aet, aet, aet, false);
     autoforwardPool = createPool(autoforwardPool);
-    createDevice(new Device(".*",".*",1234,autoforwardPool));
-    
-    aet= uid.toString().substring(0, 10);
+    createDevice(new Device(".*", ".*", 1234, autoforwardPool));
+
+    aet = UUID.randomUUID().toString().substring(0, 10);
     Pool pool = new Pool(aet, aet, aet, true);
     pool = createPool(pool);
     Device device = new Device(".*", ".*", 1234, pool);
     device = createDevice(device);
-    Device autoforwardDevice = new Device ( autoforwardPool.applicationEntityTitle, "localhost", autoforwardPool.getPort(), pool);
+    Device autoforwardDevice = new Device(autoforwardPool.applicationEntityTitle, "localhost", autoforwardPool.getPort(), pool);
     autoforwardDevice.isAutoforward = true;
     autoforwardDevice = createDevice(autoforwardDevice);
 
@@ -60,7 +58,7 @@ public class AutoforwardTest extends PACSTest {
     List<File> testSeries = sendDICOM(aet, aet, "TOF/IMAGE001.dcm");
 
     poolManager.getContainer(pool.poolKey).processAutoForward();
-    
+
     DcmQR dcmQR = new DcmQR();
     dcmQR.setRemoteHost("localhost");
     dcmQR.setRemotePort(DICOMPort);
@@ -77,7 +75,6 @@ public class AutoforwardTest extends PACSTest {
     assertEquals("PatientName", patientName, response.getString(Tag.PatientName));
     assertEquals("NumberOfStudyRelatedSeries", 1, response.getInt(Tag.NumberOfStudyRelatedSeries));
     assertEquals("NumberOfStudyRelatedInstances", testSeries.size(), response.getInt(Tag.NumberOfStudyRelatedInstances));
-
 
   }
 }
