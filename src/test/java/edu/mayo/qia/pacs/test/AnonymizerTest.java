@@ -270,7 +270,7 @@ public class AnonymizerTest extends PACSTest {
     Device device = new Device(".*", ".*", 1234, pool);
     device = createDevice(device);
 
-    List<File> testSeries = sendDICOM(aet, aet, "CTE/*.dcm");
+    sendDICOM(aet, aet, "CTE/*.dcm");
 
     DcmQR dcmQR = new DcmQR();
     dcmQR.setRemoteHost("localhost");
