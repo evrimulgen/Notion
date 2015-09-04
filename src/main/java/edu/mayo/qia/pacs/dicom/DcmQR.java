@@ -24,7 +24,6 @@ import org.dcm4che2.net.ExtQueryTransferCapability;
 import org.dcm4che2.net.ExtRetrieveTransferCapability;
 import org.dcm4che2.net.NetworkApplicationEntity;
 import org.dcm4che2.net.NetworkConnection;
-import org.dcm4che2.net.NewThreadExecutor;
 import org.dcm4che2.net.NoPresentationContextException;
 import org.dcm4che2.net.TransferCapability;
 import org.dcm4che2.net.UserIdentity;
@@ -113,7 +112,7 @@ public class DcmQR {
   // Executor eventExecutor = new NewThreadExecutor("DCMQR_EVENTS");
   Executor eventExecutor = Notion.context.getBean("executor", Executor.class);
 
-  private ActionListener moveActionListener;
+ActionListener moveActionListener;
 
   public DcmQR() {
     this("DCMQR");

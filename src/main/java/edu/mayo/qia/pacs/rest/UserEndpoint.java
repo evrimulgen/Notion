@@ -3,7 +3,6 @@ package edu.mayo.qia.pacs.rest;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import java.security.SecureRandom;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.UUID;
@@ -35,8 +34,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ContainerNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.mayo.qia.pacs.NotionConfiguration;

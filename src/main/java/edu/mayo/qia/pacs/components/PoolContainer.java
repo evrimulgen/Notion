@@ -7,12 +7,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,7 +45,6 @@ import org.springframework.stereotype.Component;
 import org.trimou.Mustache;
 import org.trimou.engine.MustacheEngine;
 import org.trimou.engine.MustacheEngineBuilder;
-import org.trimou.engine.locator.ClassPathTemplateLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -60,6 +61,7 @@ import edu.mayo.qia.pacs.Audit;
 import edu.mayo.qia.pacs.Notion;
 import edu.mayo.qia.pacs.NotionConfiguration;
 import edu.mayo.qia.pacs.ctp.Anonymizer;
+import edu.mayo.qia.pacs.dicom.DcmSnd;
 import edu.mayo.qia.pacs.dicom.TagLoader;
 import edu.mayo.qia.pacs.metric.RateGauge;
 
@@ -93,6 +95,7 @@ public class PoolContainer {
   File scriptsDirectory;
   File incomingDirectory;
   File imageDirectory;
+  ConcurrentLinkedQueue<File> instancesToForward= new ConcurrentLinkedQueue<File>();
   PipelineStage ctpAnonymizer = null;
 
   @Autowired
@@ -120,7 +123,7 @@ public class PoolContainer {
     if (this.pool.poolKey <= 0) {
       throw new RuntimeException("PoolKey must be set!");
     }
-    logger.info("Starting up pool: " + pool);
+    logger.debug("Starting up pool: " + pool);
 
     // Do we have a sequence for this pool?
     this.sequenceName = "UID" + pool.poolKey;
@@ -341,7 +344,7 @@ public class PoolContainer {
 
       // Index the file
       DicomObject tags = TagLoader.loadTags(inFile);
-      logger.info("Saving file for " + tags.getString(Tag.PatientName));
+      logger.debug("Saving file for " + tags.getString(Tag.PatientName));
 
       File relativePath = constructRelativeFileName(tags);
 
@@ -433,8 +436,11 @@ public class PoolContainer {
 
         // Copy the file, remove later
         Files.copy(inFile, outFile);
-        logger.info("Moved file " + inFile + " to " + outFile);
+        logger.debug("Moved file " + inFile + " to " + outFile);
 
+        // Queue the file up to be forwarded later
+        instancesToForward.add(outFile);
+        
         // Delete the input file, it is not needed any more
         if (inFile.exists()) {
           inFile.delete();
@@ -467,7 +473,7 @@ public class PoolContainer {
   }
 
   public void stop() {
-    logger.info("Shutting down pool: " + pool);
+    logger.debug("Shutting down pool: " + pool);
     // Stop all the stages
     ctpAnonymizer.shutdown();
   }
@@ -610,5 +616,52 @@ public class PoolContainer {
         }
       }
     });
+  }
+
+  public void processAutoForward() {
+    // First check our queue
+    if ( instancesToForward.isEmpty() ) { return; }
+    // Collect up all the files to forward, send them on and remove
+    List<File> toProcess = new ArrayList<File>();
+    
+    while (!instancesToForward.isEmpty()){
+      toProcess.add(instancesToForward.poll());
+    }
+    // Get all the devices
+    Session session = sessionFactory.openSession();
+    
+    Pool localPool = (Pool) session.byId(Pool.class).load(this.pool.poolKey);
+    // Force load
+    localPool.getDevices().size();
+
+    for ( Device device : localPool.getDevices()) {
+      if ( device.isAutoforward) {
+        // Send our batch of files
+        logger.debug("Autoforwarding " + toProcess.size() + " instance(s) to " + device);
+        try {
+          DcmSnd sender = new DcmSnd("autoforward to " + device);
+          // Startup the sender
+          sender.setRemoteHost(device.hostName);
+          sender.setRemotePort(device.port);
+          sender.setCalledAET(device.applicationEntityTitle);
+          String calling = device.callingApplicationEntityTitle;
+          if ( calling == null ) { calling = pool.applicationEntityTitle; }
+          sender.setCalling(calling);
+          for (File f : toProcess) {
+            if (f.isFile()) {
+              sender.addFile(f);
+            }
+          }
+          sender.configureTransferCapability();
+          sender.open();
+          sender.send(null);
+          sender.close();
+
+        } catch (Exception e) {
+          logger.error("Failed to autoforward to " + device, e);
+        } 
+      }
+    }
+      session.close();
   }
 }

@@ -31,6 +31,7 @@
                 <td>AETitle</td>
                 <td>Hostname</td>
                 <td>Port</td>
+                <td>Autoforward</td>
                 <td>Description</td>
                 <td></td>
                 <td></td>
@@ -41,6 +42,7 @@
                 <td>{{device.get('applicationEntityTitle')}}</td>
                 <td>{{device.get('hostName')}}</td>
                 <td>{{device.get('port')}}</td>
+                <td><i class="fa" ng-class="{'fa-check': device.get('isAutoforward')}"></i></td>
                 <td>{{device.get('description')}}</td>
                 <td><i class="fa fa-edit" ng-click="editDevice(device)"></i></td>
                 <td><i class="fa fa-times-circle" ng-click="deleteDevice(device)"></i></td>

@@ -67,10 +67,8 @@ public class PoolTest extends PACSTest {
   @Test
   public void createPool() {
     // CURL Code
-    /*
-     * curl -X POST -H "Content-Type: application/json" -d
-     * '{"name":"foo","path":"bar"}' http://localhost:11118/pool
-     */
+    /* curl -X POST -H "Content-Type: application/json" -d
+     * '{"name":"foo","path":"bar"}' http://localhost:11118/pool */
     ClientResponse response = null;
     URI uri = UriBuilder.fromUri(baseUri).path("/pool").build();
     Pool pool = new Pool("empty", "empty", "empty", false);
@@ -215,13 +213,13 @@ public class PoolTest extends PACSTest {
 
     device = createDevice(device);
 
-    List<File> testSeries = sendDICOM(aet, aet, "TOF/*001.dcm");
+    sendDICOM(aet, aet, "TOF/*001.dcm");
 
     // Change the anonymizer and continue
     String script = "var tags = {AccessionNumber: '42', PatientName: 'Gone', PatientID: '1234' }; tags;";
     createScript(new Script(pool, script));
 
-    testSeries = sendDICOM(aet, aet, "TOF/*001.dcm");
+    sendDICOM(aet, aet, "TOF/*001.dcm");
 
     // See how many series we have, and check the images on disk
     List<String> filePaths = template.queryForList("select FilePath from INSTANCE, SERIES, STUDY where INSTANCE.SeriesKey = SERIES.SeriesKey and SERIES.StudyKey = STUDY.StudyKey and STUDY.PoolKey = ?", new Object[] { pool.poolKey }, String.class);

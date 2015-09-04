@@ -56,7 +56,7 @@ public class PoolManager implements Managed {
   public void newPool(Pool pool) {
     PoolContainer poolContainer = Notion.context.getBean(PoolContainer.class);
     poolContainers.put(pool.applicationEntityTitle, poolContainer);
-    logger.info("Starting pool: " + pool);
+    logger.debug("Starting pool: " + pool);
     poolContainer.start(pool);
 
   }

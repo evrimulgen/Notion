@@ -5,7 +5,6 @@ import io.dropwizard.hibernate.AbstractDAO;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.metamodel.source.annotations.entity.EntityClass;
 
 import com.google.common.base.Optional;
 
