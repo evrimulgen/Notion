@@ -44,6 +44,6 @@ sync:
 	ssh qin@qia "cd /research/images/Notion ;ln -sfn $(versionDir)-$(DATE) Notion"
 
 restart:
-	ssh qia sudo /sbin/service notion restart
+	ssh -t qia sudo /sbin/service notion restart
 
 .PHONY: build dist install watch server sync restart
