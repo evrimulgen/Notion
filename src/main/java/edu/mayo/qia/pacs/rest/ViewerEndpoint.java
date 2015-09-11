@@ -107,9 +107,11 @@ public class ViewerEndpoint extends Endpoint {
         study.put("modality", "unknown");
         study.put("studyDescription", rs.getString("StudyDescription"));
         study.put("studyId", rs.getString("StudyKey"));
-        int studyKey = rs.getInt("StudyKey");
-        Integer numberOfImages = template.queryForObject("select count(INSTANCE.InstanceKey) from INSTANCE, SERIES, STUDY where INSTANCE.SeriesKey = SERIES.SeriesKey and SERIES.StudyKey = ?", new Object[] { studyKey }, Integer.class);
-        study.put("numImages", numberOfImages);
+        // int studyKey = rs.getInt("StudyKey");
+        // Integer numberOfImages =
+        // template.queryForObject("select count(INSTANCE.InstanceKey) from INSTANCE, SERIES, STUDY where INSTANCE.SeriesKey = SERIES.SeriesKey and SERIES.StudyKey = ?",
+        // new Object[] { studyKey }, Integer.class);
+        // study.put("numImages", numberOfImages);
       }
     });
     return Response.ok(json).build();
@@ -162,9 +164,11 @@ public class ViewerEndpoint extends Endpoint {
         json.put("modality", "unknown");
         json.put("studyDescription", rs.getString("StudyDescription"));
         json.put("studyId", rs.getString("StudyKey"));
-        int studyKey = rs.getInt("StudyKey");
-        Integer numberOfImages = template.queryForObject("select count(INSTANCE.InstanceKey) from INSTANCE, SERIES, STUDY where INSTANCE.SeriesKey = SERIES.SeriesKey and SERIES.StudyKey = ?", new Object[] { studyKey }, Integer.class);
-        json.put("numImages", numberOfImages);
+        // int studyKey = rs.getInt("StudyKey");
+        // Integer numberOfImages =
+        // template.queryForObject("select count(INSTANCE.InstanceKey) from INSTANCE, SERIES where INSTANCE.SeriesKey = SERIES.SeriesKey and SERIES.StudyKey = ?",
+        // new Object[] { studyKey }, Integer.class);
+        // json.put("numImages", numberOfImages);
 
       }
     });
@@ -178,7 +182,7 @@ public class ViewerEndpoint extends Endpoint {
         s.put("seriesNumber", rs.getString("SeriesNumber"));
         s.put("seriesKey", rs.getInt("SeriesKey"));
         int seriesKey = rs.getInt("SeriesKey");
-        Integer numberOfImages = template.queryForObject("select count(INSTANCE.InstanceKey) from INSTANCE, SERIES where INSTANCE.SeriesKey =  ?", new Object[] { seriesKey }, Integer.class);
+        Integer numberOfImages = template.queryForObject("select count(*) from INSTANCE where INSTANCE.SeriesKey =  ?", new Object[] { seriesKey }, Integer.class);
         s.put("numImages", numberOfImages);
       }
     });
