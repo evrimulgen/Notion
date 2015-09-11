@@ -83,7 +83,7 @@ function loadStudy(studyViewer, viewportModel, studyId) {
                     if (image.imageId.substr(0, 4) !== 'http') {
                         imageId = "dicomweb://cornerstonetech.org/images/ClearCanvas/" + image.imageId;
                     }
-                  imageId = "dicomweb:/rest/pool/1/viewer/" + image.imageId;
+                  imageId = "dicomweb:/rest/pool/" + poolKey + "/viewer/" + image.imageId;
                     stack.imageIds.push(imageId);
                 });
             }
