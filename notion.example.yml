@@ -6,7 +6,7 @@ dbWeb: 8084
 # For simplicity, Notion uses the Derby embedded database, see
 # http://db.apache.org/derby/ for more information.
 # The directory where the DB in installed is specified after the 'directory:'
-# portion of the URL.
+# portion of the URL (./NotionPACS in this case).
 database:
   driverClass: org.apache.derby.jdbc.EmbeddedDriver
   url: jdbc:derby:directory:NotionPACS/DB;create=true
