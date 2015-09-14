@@ -303,7 +303,7 @@ public class Query {
             for (Result updateResult : updateItem.items) {
               for (Result result : item.items) {
                 if (result.queryResultKey == updateResult.queryResultKey) {
-                  logger.info(updateResult.doFetch);
+                  logger.debug(updateResult.doFetch);
                   String doFetch = updateResult.doFetch ? "T" : "F";
                   template.update("update QUERYRESULT set DoFetch = ? where QueryResultKey = ?", doFetch, result.queryResultKey);
                   continue;

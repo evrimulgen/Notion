@@ -1,7 +1,5 @@
 package edu.mayo.qia.pacs.test;
 
-import com.google.common.collect.ImmutableMap;
-
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.cli.ServerCommand;
@@ -13,11 +11,8 @@ import net.sourceforge.argparse4j.inf.Namespace;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 
-import java.util.Enumeration;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * A JUnit rule for starting and stopping your application at the start and end
@@ -48,15 +43,6 @@ public class ApplicationFixture<C extends Configuration> {
       configOverride.addToSystemProperties();
     }
     startIfRequired();
-  }
-
-  private void resetConfigOverrides() {
-    for (Enumeration<?> props = System.getProperties().propertyNames(); props.hasMoreElements();) {
-      String keyString = (String) props.nextElement();
-      if (keyString.startsWith("dw.")) {
-        System.clearProperty(keyString);
-      }
-    }
   }
 
   public void startIfRequired() {

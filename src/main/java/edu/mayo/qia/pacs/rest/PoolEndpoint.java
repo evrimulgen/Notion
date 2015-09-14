@@ -216,6 +216,16 @@ public class PoolEndpoint extends Endpoint {
     return queryEndpoint;
   }
 
+  /** Viewer */
+  @Path("/{id: [1-9][0-9]*}/viewer")
+  public ViewerEndpoint viewer(@Auth Subject subject, @PathParam("id") int id) {
+    subject.checkPermission("pool:coordinator:" + id);
+    ViewerEndpoint queryEndpoint;
+    queryEndpoint = getResource(ViewerEndpoint.class);
+    queryEndpoint.poolKey = id;
+    return queryEndpoint;
+  }
+
   /** Group / Roles */
   @Path("/{id: [1-9][0-9]*}/grouprole")
   public GroupRoleEndpoint group(@Auth Subject subject, @PathParam("id") int id) {

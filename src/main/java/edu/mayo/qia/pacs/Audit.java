@@ -1,12 +1,13 @@
 package edu.mayo.qia.pacs;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,8 +25,8 @@ import edu.mayo.qia.pacs.ctp.Anonymizer;
  *
  */
 public class Audit {
+  static Logger logger = LoggerFactory.getLogger("edu.mayo.qia.notion.audit");
 
-  public static Logger logger = Logger.getLogger("edu.mayo.qia.notion.audit");
   public static int[] tagFields = { Tag.PatientID, Tag.PatientName, Tag.StudyDate, Tag.Modality, Tag.StudyID, Tag.SeriesNumber, Tag.AccessionNumber, Tag.StudyDescription, Tag.SeriesDescription };
 
   public static void log(Subject subject, String action, String value) {

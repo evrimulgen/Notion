@@ -40,7 +40,7 @@ Notion is released through [NITRIC](http://www.nitric.org), future and older rel
 
 ###### TL;DR version
 ```bash
-java -jar Notion.jar
+java -jar Notion.jar server notion.yml
 ```
 Point a browser at [http://localhost:11118](http://localhost:11118).
 

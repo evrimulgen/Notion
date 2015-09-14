@@ -1,7 +1,6 @@
 package edu.mayo.qia.pacs.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.util.List;

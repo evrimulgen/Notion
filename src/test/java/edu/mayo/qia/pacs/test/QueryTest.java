@@ -2,11 +2,9 @@ package edu.mayo.qia.pacs.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import io.dropwizard.testing.junit.DropwizardAppRule;
 
 import java.io.InputStream;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -19,7 +17,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,6 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
 import edu.mayo.qia.pacs.Notion;
-import edu.mayo.qia.pacs.NotionConfiguration;
 import edu.mayo.qia.pacs.components.Connector;
 import edu.mayo.qia.pacs.components.Device;
 import edu.mayo.qia.pacs.components.Item;
