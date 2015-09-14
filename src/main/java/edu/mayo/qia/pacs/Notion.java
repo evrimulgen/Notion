@@ -27,7 +27,7 @@ public class Notion {
 
   public static AnnotationConfigApplicationContext context;
   public static ExecutorService executor = Executors.newCachedThreadPool();
-  public static String version = "2.3.4.0";
+  public static String version = "3.1.0";
   public static final MetricRegistry metrics = new MetricRegistry();
   public static Logger audit = Audit.logger;
 
